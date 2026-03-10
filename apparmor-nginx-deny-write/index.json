@@ -1,0 +1,23 @@
+{
+  "title": "Apply an AppArmor Cache Lockdown",
+  "description": "Load a staged AppArmor profile on node01 and run a Pod that cannot write into a protected cache directory.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Load the profile and launch the probe Pod",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

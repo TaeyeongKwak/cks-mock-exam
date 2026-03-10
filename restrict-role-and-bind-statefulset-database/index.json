@@ -1,0 +1,23 @@
+{
+  "title": "Restrict Role Permissions for app-sa",
+  "description": "Tighten an existing Role for app-sa and add StatefulSet update access in namespace data-core.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Fix the Role permissions",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

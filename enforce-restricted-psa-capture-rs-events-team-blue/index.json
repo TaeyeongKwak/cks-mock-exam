@@ -1,0 +1,23 @@
+{
+  "title": "Enforce Restricted PSA and Capture RS Events",
+  "description": "Apply restricted Pod Security labels, delete the privileged Pod, and save the ReplicaSet failure lines on node01.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Enforce PSA and capture the failure",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

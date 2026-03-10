@@ -1,0 +1,23 @@
+{
+  "title": "Restrict docker.sock Permissions in ci-sec",
+  "description": "Harden a mounted docker.sock so only the intended CI user can access it.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Restrict docker.sock access",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

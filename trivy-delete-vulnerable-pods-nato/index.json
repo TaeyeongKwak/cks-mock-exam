@@ -1,0 +1,23 @@
+{
+  "title": "Delete Severely Vulnerable Pods in atlas",
+  "description": "Use Trivy to scan Pod images in atlas and delete Pods using HIGH or CRITICAL images.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Scan and delete vulnerable Pods",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

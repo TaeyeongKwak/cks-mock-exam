@@ -1,0 +1,23 @@
+{
+  "title": "Enable Istio mTLS STRICT in billing",
+  "description": "Verify sidecar injection and enforce STRICT mTLS for all workloads in the billing namespace.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Enable STRICT mTLS for billing",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

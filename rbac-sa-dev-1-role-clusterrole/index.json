@@ -1,0 +1,23 @@
+{
+  "title": "Adjust Role And ClusterRole For sa-app-1",
+  "description": "Tighten an existing Role for a ServiceAccount and add cluster-wide namespace update access.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Solve the task",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

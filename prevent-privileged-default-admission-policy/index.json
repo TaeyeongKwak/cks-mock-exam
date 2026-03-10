@@ -1,0 +1,23 @@
+{
+  "title": "Prevent Privileged Pods in policy-lab",
+  "description": "Use modern admission control to block privileged Pods in namespace policy-lab while preserving the original RBAC flow.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Create the admission policy and RBAC resources",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

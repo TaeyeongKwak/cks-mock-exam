@@ -1,0 +1,23 @@
+{
+  "title": "Build A Forensics-Focused Audit Policy",
+  "description": "Restore API server retention flags and finish a stricter ordered audit rule set.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Finish the forensics audit setup",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

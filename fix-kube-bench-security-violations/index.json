@@ -1,0 +1,23 @@
+{
+  "title": "Fix kube-bench Security Findings",
+  "description": "Harden kube-apiserver, kubelet, and etcd settings that fail staged kube-bench checks.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Repair the insecure component settings",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "title": "Route API Audit Events To The Ops Log",
+  "description": "Repair the API server audit destination and expand a seeded policy file with targeted resource rules.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Restore the audit configuration",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

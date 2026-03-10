@@ -1,0 +1,23 @@
+{
+  "title": "Issue a Client Certificate and Bind Namespace Access",
+  "description": "Create a new client identity, approve its CSR, and grant namespaced Pod and Secret permissions.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Provision the user certificate and RBAC",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

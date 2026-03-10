@@ -1,0 +1,23 @@
+{
+  "title": "Fix Dockerfile and Deployment Issues in candidate/10-sec",
+  "description": "Edit the staged Dockerfile and Deployment manifest to correct two security or best-practice values in each file.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Fix the staged files",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

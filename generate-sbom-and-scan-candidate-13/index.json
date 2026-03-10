@@ -1,0 +1,23 @@
+{
+  "title": "Generate and Scan SBOMs in candidate/13a",
+  "description": "Generate SPDX and CycloneDX SBOMs for Kubernetes images and scan an existing SBOM with Trivy.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Generate the SBOMs and scan the staged SBOM",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

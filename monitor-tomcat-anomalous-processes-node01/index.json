@@ -1,0 +1,23 @@
+{
+  "title": "Monitor Anomalous tomcat Process Events",
+  "description": "Observe anomalous process execution from Pod tomcat on node01 and save incidents on the worker node.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Monitor tomcat and save incidents",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

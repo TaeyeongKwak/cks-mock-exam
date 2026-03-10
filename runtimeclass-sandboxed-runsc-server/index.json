@@ -1,0 +1,23 @@
+{
+  "title": "Use RuntimeClass isolated with runsc",
+  "description": "Create a RuntimeClass for gVisor and move all backend namespace Pods to it.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Create the RuntimeClass and update the Pods",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

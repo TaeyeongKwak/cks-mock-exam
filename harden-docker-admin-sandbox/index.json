@@ -1,0 +1,23 @@
+{
+  "title": "Harden docker-ops in sandbox-lab",
+  "description": "Keep a docker.sock-mounted Deployment running while reducing its privilege with Kubernetes security controls.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Harden the Deployment",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

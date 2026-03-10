@@ -1,0 +1,23 @@
+{
+  "title": "Shape Cilium Trust and ICMP Restrictions",
+  "description": "Create two new Cilium policies that require authenticated app traffic and block ICMP probes to an internal backend.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Define the missing Cilium policies",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

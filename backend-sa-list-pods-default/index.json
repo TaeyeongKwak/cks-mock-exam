@@ -1,0 +1,23 @@
+{
+  "title": "Prepare a Read-Only Pod Viewer",
+  "description": "Create a namespaced ServiceAccount with Pod list permission and run a workload under it.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Wire the viewer identity",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

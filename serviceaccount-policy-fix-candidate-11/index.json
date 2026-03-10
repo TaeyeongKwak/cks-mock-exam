@@ -1,0 +1,23 @@
+{
+  "title": "Fix ServiceAccount Policy Issues in candidate/11",
+  "description": "Create a compliant ServiceAccount, update the staged Pod manifest, and remove unused ServiceAccounts in qa-lab.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Fix the ServiceAccount usage",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

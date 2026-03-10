@@ -1,0 +1,23 @@
+{
+  "title": "Activate an AppArmor Web Profile",
+  "description": "Load a staged AppArmor profile on node01 and launch a web Pod that runs under that profile.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Load the profile and start the workload",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

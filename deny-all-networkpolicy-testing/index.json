@@ -1,0 +1,23 @@
+{
+  "title": "Seal The quarantine Namespace",
+  "description": "Apply a full traffic blackout to one namespace without touching the neighboring test space.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Create the blackout policy",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

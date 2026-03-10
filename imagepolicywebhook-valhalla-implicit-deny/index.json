@@ -1,0 +1,23 @@
+{
+  "title": "Configure ImagePolicyWebhook With Strict Implicit Deny",
+  "description": "Enable the image policy webhook and deny vulnerable images through an HTTPS scanner endpoint.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Solve the task",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

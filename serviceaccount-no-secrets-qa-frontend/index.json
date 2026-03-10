@@ -1,0 +1,23 @@
+{
+  "title": "Use a Restricted ServiceAccount for frontend",
+  "description": "Create backend-team in qa-lab and recreate frontend-ui to use it without secret access.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Create the restricted ServiceAccount",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

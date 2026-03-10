@@ -1,0 +1,23 @@
+{
+  "title": "Enable Audit Logging for Nodes and portal PVCs",
+  "description": "Configure kube-apiserver audit logging and extend the base policy with Node and PVC rules.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Configure audit logging and extend the policy",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

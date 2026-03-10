@@ -1,0 +1,23 @@
+{
+  "title": "Build an Outbound Guardrail",
+  "description": "Create a namespace-wide egress lock policy, optionally leaving DNS as the only allowed escape path.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Add the outbound restriction policy",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

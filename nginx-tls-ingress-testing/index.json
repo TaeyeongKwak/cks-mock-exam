@@ -1,0 +1,23 @@
+{
+  "title": "TLS Ingress for web-pod in testing-lab",
+  "description": "Create a TLS Secret, expose web-pod with a Service, and configure an HTTPS Ingress for bingo.com.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Deploy web pod and configure TLS ingress",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

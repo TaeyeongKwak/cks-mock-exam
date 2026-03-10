@@ -1,0 +1,23 @@
+{
+  "title": "Restrict Ingress to catalog-service",
+  "description": "Create a NetworkPolicy that only allows same-namespace traffic and pods labeled environment=testing.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Create the ingress-guard NetworkPolicy",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

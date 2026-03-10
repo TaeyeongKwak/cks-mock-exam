@@ -1,0 +1,23 @@
+{
+  "title": "Deploy Pod with RuntimeClass sandbox-alt",
+  "description": "Create a RuntimeClass backed by runsc, run a Pod on node01, and capture dmesg output.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Create the RuntimeClass and run the Pod",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

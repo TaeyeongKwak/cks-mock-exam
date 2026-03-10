@@ -1,0 +1,23 @@
+{
+  "title": "Investigate Port 389 and Remove the Executable",
+  "description": "Find the process listening on port 389, capture its open files, and delete its executable binary.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Find the PID, capture open files, and delete the binary",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

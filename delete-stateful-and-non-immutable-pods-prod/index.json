@@ -1,0 +1,23 @@
+{
+  "title": "Retire Mutable Pods In shipping",
+  "description": "Cull direct Pods that break the namespace rule for read-only and stateless workloads.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Remove the rejected Pods",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

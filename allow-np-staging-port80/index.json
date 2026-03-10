@@ -1,0 +1,23 @@
+{
+  "title": "Fence Intra-Team HTTP Traffic",
+  "description": "Create a namespace-local ingress policy that permits HTTP on port 80 while blocking other ports and external namespaces.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Restore the intended access path",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

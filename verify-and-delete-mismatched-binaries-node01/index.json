@@ -1,0 +1,23 @@
+{
+  "title": "Validate and Remove Mismatched Binaries on node01",
+  "description": "Compare staged Kubernetes binaries against expected sha512 values and delete the mismatched files.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Check the binaries and delete mismatches",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

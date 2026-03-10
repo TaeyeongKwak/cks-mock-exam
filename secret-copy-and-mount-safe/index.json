@@ -1,0 +1,23 @@
+{
+  "title": "Copy Secret Data and Mount app-secret",
+  "description": "Read an existing Secret, write its fields to local files, create a new Secret, and mount it in a Pod.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Extract, create, and mount the Secret",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

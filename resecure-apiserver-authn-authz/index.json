@@ -1,0 +1,23 @@
+{
+  "title": "Re-secure kube-apiserver access",
+  "description": "Repair an insecure API server configuration so only authenticated and authorized requests are allowed.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Restore secure API server access",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

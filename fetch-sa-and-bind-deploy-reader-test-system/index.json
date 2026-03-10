@@ -1,0 +1,23 @@
+{
+  "title": "Fetch Pod ServiceAccount and Bind Deployment Reader",
+  "description": "Read a Pod's ServiceAccount, save it to a file, and grant it namespaced Deployment read permissions.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Save the ServiceAccount and bind the Role",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

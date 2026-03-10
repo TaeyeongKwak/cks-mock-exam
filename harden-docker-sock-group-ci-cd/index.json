@@ -1,0 +1,23 @@
+{
+  "title": "Harden docker.sock Group Access in ci-ops",
+  "description": "Keep the docker.sock mount but remove docker group access from the workload.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Remove docker group access",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

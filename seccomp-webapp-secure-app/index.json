@@ -1,0 +1,23 @@
+{
+  "title": "Apply A Localhost Seccomp Profile",
+  "description": "Install a custom seccomp profile on a node and enforce it on the frontend Deployment.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Solve the task",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

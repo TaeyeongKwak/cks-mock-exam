@@ -1,0 +1,23 @@
+{
+  "title": "Seal a Namespace with a Blanket Policy",
+  "description": "Complete a staged manifest so one NetworkPolicy blocks all ingress and egress for a namespace.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Finish the staged deny-all manifest",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

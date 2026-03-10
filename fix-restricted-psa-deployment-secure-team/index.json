@@ -1,0 +1,23 @@
+{
+  "title": "Fix Restricted PSA Deployment in secure-lab",
+  "description": "Edit an insecure Deployment manifest so it can run in a namespace enforcing the restricted Pod Security profile.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Fix the Deployment manifest",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

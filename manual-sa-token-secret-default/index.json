@@ -1,0 +1,23 @@
+{
+  "title": "Manual ServiceAccount Token Mount in default",
+  "description": "Disable automatic token mounting and mount a manually created ServiceAccount token Secret.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Disable automount and mount the token manually",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

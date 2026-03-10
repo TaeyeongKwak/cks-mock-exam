@@ -1,0 +1,23 @@
+{
+  "title": "Fix CIS Findings for API Server, Kubelet, and Etcd",
+  "description": "Repair staged insecure control plane and kubelet settings so CIS-style findings are cleared.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Fix the staged CIS findings",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

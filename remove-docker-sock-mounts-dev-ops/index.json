@@ -1,0 +1,23 @@
+{
+  "title": "Remove docker.sock Mounts in build-ops",
+  "description": "Identify Pods mounting docker.sock and update their Deployments to remove the mount.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Remove the docker.sock mounts",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

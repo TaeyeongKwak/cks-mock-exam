@@ -1,0 +1,23 @@
+{
+  "title": "Enable Encryption at Rest for Secrets",
+  "description": "Configure kube-apiserver to encrypt Secrets in etcd with an EncryptionConfiguration.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "foreground": "foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Enable encryption for Secrets",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}
