@@ -9,6 +9,5 @@ Complete the following task:
 
 Notes
 
-- The source host `cks-node` is normalized to `node01` in this playground.
 - Capture the event lines that show Pod Security Admission is blocking recreation.
 - The log file must be created on `node01`, not on `controlplane`.

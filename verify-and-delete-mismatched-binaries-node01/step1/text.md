@@ -14,6 +14,5 @@ Expected hashes
 
 Notes
 
-- The source host `cks-node` is normalized to `node01` in this playground.
 - The verified values are also staged on `node01` at `/opt/candidate/15a/verified-sha512.txt`.
 - Perform the cleanup on `node01`, not on `controlplane`.

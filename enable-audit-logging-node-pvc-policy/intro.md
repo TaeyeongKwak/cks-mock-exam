@@ -7,12 +7,6 @@ Environment notes
 - The API server manifest is `/etc/kubernetes/manifests/kube-apiserver.yaml`.
 - Namespace `portal` already exists.
 
-Adaptation notes
-
-- The source base policy path `/etc/audit/audit-policy.yaml` is normalized to `/etc/kubernetes/pki/audit-policy.yaml` because that directory is already mounted into the kube-apiserver static Pod in the default kubeadm layout.
-- A base policy is already staged there and only defines what not to log. Extend it with the required resource rules.
-- You only need to update the audit flags and the audit policy content. No extra volume mounts are required in this scenario.
-
 Success criteria
 
 - Audit logs are written to `/var/log/kubernetes-logs.log`.

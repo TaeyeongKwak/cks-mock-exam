@@ -11,6 +11,5 @@ Complete the following task:
 
 Notes
 
-- The source node `node-02` is normalized to `node01` in this environment.
 - A helper Pod manifest is staged at `/opt/course/7/guestbox-pod.yaml`.
 - Because Pod scheduling and runtime class settings are immutable in this scenario, recreate the Pod after editing if needed.

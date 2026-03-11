@@ -8,12 +8,6 @@ Environment notes
 - A helper manifest is staged at `/root/atlas-pods.yaml`.
 - Save your scan results as plain text to `/opt/atlas-trivy-report.txt`.
 
-Adaptation notes
-
-- Vulnerability data changes over time as the Trivy database is updated.
-- To keep verification deterministic, the scenario computes the expected set of severely vulnerable images during bootstrap with the same Trivy installation that the learner will use.
-- In this scenario, a Pod is considered severely vulnerable when its image has at least one `HIGH` or `CRITICAL` finding from Trivy.
-
 Success criteria
 
 - All images used by Pods in namespace `atlas` are scanned with Trivy.

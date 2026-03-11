@@ -11,7 +11,6 @@ Requirements
 
 Notes
 
-- The source base policy path `/etc/audit/audit-policy.yaml` is normalized to `/etc/kubernetes/pki/audit-policy.yaml` in this playground.
 - The staged base policy already contains only the exclusion rules. Extend it rather than replacing it with unrelated content.
 - Edit `/etc/kubernetes/manifests/kube-apiserver.yaml` on `controlplane`.
 - Wait for the kube-apiserver static Pod to restart after saving the manifest.

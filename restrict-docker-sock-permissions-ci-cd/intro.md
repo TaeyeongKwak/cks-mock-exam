@@ -7,12 +7,6 @@ Environment notes
 - The Deployment has two containers: `builder` is the intended CI job container, and `observer` is not authorized to control the Docker daemon.
 - A helper manifest is staged at `/root/build-runner.yaml`.
 
-Adaptation notes
-
-- The default playground uses containerd, not Docker. To preserve the original exercise intent, this scenario stages a host file at `/var/run/docker.sock`.
-- The staged file starts as `root:docker` with permissions equivalent to `0660`. In this scenario, group ID `123` represents the host `docker` group.
-- "Can run arbitrary containers" is modeled as read and write access to `/var/run/docker.sock`. If a container cannot open that file, it is treated as unauthorized to control the daemon.
-
 Success criteria
 
 - The `builder` container can still access `/var/run/docker.sock`.

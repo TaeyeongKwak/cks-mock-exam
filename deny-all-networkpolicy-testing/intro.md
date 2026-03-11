@@ -6,11 +6,6 @@ Environment notes
 - The namespace to lock down in this rewrite is `quarantine`.
 - A separate namespace named `edge` exists so you can reason about cross-namespace traffic.
 
-Adaptation notes
-
-- Sample client and server Pods are precreated so the final policy can be verified by behavior, not only by YAML shape.
-- You only need one NetworkPolicy for the target namespace.
-
 Success criteria
 
 - Create a policy named `air-gap` in `quarantine`.

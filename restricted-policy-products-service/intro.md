@@ -6,11 +6,6 @@ Environment notes
 - The target Pod `catalog-service` already runs in namespace `app-team`.
 - Test client Pods are already running in multiple namespaces.
 
-Adaptation notes
-
-- In Kubernetes NetworkPolicy, matching labeled Pods in any namespace requires `namespaceSelector` together with `podSelector`.
-- This scenario validates the policy by testing real connectivity to `catalog-service`.
-
 Success criteria
 
 - A NetworkPolicy named `ingress-guard` exists in namespace `app-team`.

@@ -6,11 +6,6 @@ Environment notes
 - A seed policy file already exists at `/etc/kubernetes/pki/ops-audit-rules.yaml`.
 - The current flags and policy content are intentionally incomplete.
 
-Adaptation notes
-
-- The policy path is different from the earlier labs so the scenario reads as a fresh environment.
-- The seed file already ignores probe endpoints. Keep that suppression while adding the required resource rules.
-
 Success criteria
 
 - The running API server writes to `/var/log/kubernetes-logs.log`.

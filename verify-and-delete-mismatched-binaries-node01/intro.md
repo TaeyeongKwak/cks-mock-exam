@@ -3,14 +3,7 @@ This scenario rewrites a host-level binary integrity task for the default Killer
 Environment notes
 
 - The terminal starts on `controlplane`.
-- The source node reference `cks-node` is normalized to the actual worker node `node01`.
 - The target binaries are staged on `node01` under `/opt/candidate/15a/binaries`.
-
-Adaptation notes
-
-- The original task only requires removing binaries whose sha512 checksums do not match the provided verified values.
-- In this staged environment, all four binaries are intentionally mismatched so the learner must identify and delete each one.
-- The verified values are also staged on `node01` at `/opt/candidate/15a/verified-sha512.txt` for convenience.
 
 Success criteria
 

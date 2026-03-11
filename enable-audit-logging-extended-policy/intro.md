@@ -6,11 +6,6 @@ Environment notes
 - A seed policy file is placed at `/etc/kubernetes/pki/forensics-audit.yaml`.
 - The current manifest points to that file, but the values are not production-ready yet.
 
-Adaptation notes
-
-- The file names and narrative differ from the earlier audit lab, but the audit concepts are the same.
-- The finished rule order matters in this scenario because broader rules must not override specific ones.
-
 Success criteria
 
 - The running API server writes to `/var/log/kubernetes-logs.log`.

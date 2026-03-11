@@ -15,7 +15,5 @@ Requirements
 
 Notes
 
-- In this environment, `PodSecurityPolicy` is normalized to the built-in `PodSecurity` admission plugin because PodSecurityPolicy was removed in Kubernetes v1.25.
-- In this environment, `RotateKubeletServerCertificate` is normalized to `serverTLSBootstrap: true` in `/var/lib/kubelet/config.yaml`.
 - Restart the kubelet after changing `/var/lib/kubelet/config.yaml`.
 - Edit the control plane files directly on `controlplane`.

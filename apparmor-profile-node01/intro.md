@@ -3,7 +3,6 @@ This lab targets AppArmor profile activation on the standard Killercoda Kubernet
 Prepared environment
 
 - You begin on `controlplane`.
-- The original worker reference is normalized to `node01`.
 - A ready-made AppArmor profile is staged on `node01` at `/root/web-guard.apparmor`.
 - A Pod manifest template is staged on `controlplane` at `/root/web-guard-pod.yaml`.
 

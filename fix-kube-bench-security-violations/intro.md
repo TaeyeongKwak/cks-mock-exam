@@ -9,12 +9,6 @@ Environment notes
   - `/etc/kubernetes/manifests/etcd.yaml`
   - `/var/lib/kubelet/config.yaml`
 
-Adaptation notes
-
-- The original requirement mentions the `PodSecurityPolicy` admission plugin. Kubernetes removed PodSecurityPolicy in v1.25, so this scenario uses the built-in `PodSecurity` admission plugin instead.
-- The original requirement mentions `RotateKubeletServerCertificate`. In the current kubelet configuration API, this is normalized to `serverTLSBootstrap: true`.
-- The kubelet checks are scoped to the `controlplane` node, which is the machine you are using.
-
 Success criteria
 
 - The API server uses the `PodSecurity` admission plugin and sets `--kubelet-certificate-authority`.

@@ -3,7 +3,6 @@ This lab focuses on constraining container file writes with AppArmor in the defa
 Prepared environment
 
 - You begin on `controlplane`.
-- The worker referenced by the original task is normalized to `node01`.
 - A ready-to-load AppArmor profile is staged on `node01` at `/root/cache-lockdown.apparmor`.
 - A Pod manifest template is staged on `controlplane` at `/root/cache-probe.yaml`.
 

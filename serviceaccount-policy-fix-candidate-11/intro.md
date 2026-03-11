@@ -6,14 +6,6 @@ Environment notes
 - Namespace `qa-lab` already exists.
 - The Pod manifest to edit is staged at `/home/candidate/11/ui-pod.yaml`.
 
-Adaptation notes
-
-- The staged Pod manifest references a non-existent ServiceAccount, so applying it fails until you correct the manifest.
-- The organization policy for this scenario is:
-  - ServiceAccounts must not automount API credentials
-  - ServiceAccount names must end with `-sa`
-- Namespace `qa-lab` also contains unused ServiceAccounts that should be cleaned up.
-
 Success criteria
 
 - ServiceAccount `ui-sa` exists in namespace `qa-lab`.

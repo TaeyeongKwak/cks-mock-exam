@@ -9,12 +9,6 @@ Environment notes
   - `/etc/kubernetes/manifests/etcd.yaml`
   - `/var/lib/kubelet/config.yaml`
 
-Adaptation notes
-
-- The kubelet checks are scoped to the `controlplane` node, which is the node you are working on.
-- For etcd, "valid TLS certificates (not self-signed)" is normalized to using the default kubeadm CA-signed certificate files under `/etc/kubernetes/pki/etcd`.
-- The staged insecure state is built by changing flags and kubelet config values, while keeping the cluster recoverable.
-
 Success criteria
 
 - The API server no longer uses `AlwaysAllow` and includes both `Node` and `RBAC` authorization modes.
