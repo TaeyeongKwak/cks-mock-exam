@@ -1,6 +1,6 @@
 ---
 name: kubernetes-exam-to-killercoda
-description: Convert Kubernetes certification exam tasks and Korean-language requests to rewrite exam problems as Killercoda scenarios into Killercoda-compatible hands-on labs with bootstrap setup, environment normalization, and deterministic verification. Use when rewriting CKA, CKAD, or CKS style questions for Killercoda, adapting unsupported assumptions such as node names or topology, or generating scenario files like index.json, intro text, step markdown, foreground/background scripts, and verify.sh.
+description: Convert Kubernetes certification exam tasks and Korean-language requests to rewrite exam problems as Killercoda scenarios into Killercoda-compatible hands-on labs with bootstrap setup, environment normalization, and deterministic verification. Use when rewriting CKA, CKAD, or CKS style questions for Killercoda, adapting unsupported assumptions such as node names or topology, or generating scenario files like index.json, intro text, step markdown, background scripts, and verify.sh.
 ---
 
 # Kubernetes Exam To Killercoda
@@ -29,7 +29,7 @@ Convert exam-style Kubernetes tasks into runnable Killercoda labs. Produce a sce
 ### 3. Build the scenario package
 
 - Default to a minimal package with `index.json`, `intro.md`, `finish.md`, per-step markdown, and `verify.sh`.
-- Add `foreground.sh` or `background.sh` only when bootstrap work must happen before or during a step.
+- Run environment-setup bootstrap scripts via `background.sh` (for example `intro/background.sh` or `stepN/background.sh`).
 - Use a backend image that matches the task. Prefer `kubernetes-kubeadm-2nodes` for standard cluster exercises.
 - Read `references/scenario-output.md` for the scenario file contract and minimal templates.
 
@@ -39,6 +39,8 @@ Convert exam-style Kubernetes tasks into runnable Killercoda labs. Produce a sce
 - Name exact namespaces, resources, files, and nodes after normalization.
 - Mention only the information the learner needs to solve the task.
 - Avoid references to unavailable cloud consoles, SSH endpoints, hostnames, or infrastructure outside the playground.
+- In every step `text.md`, append a collapsible answer key using HTML `<details><summary>...</summary>...</details>` so learners can open it only when needed.
+- Build each answer key as a command set that configures a state passing that step's `verify.sh` checks.
 
 ### 5. Write deterministic verification
 
@@ -51,7 +53,7 @@ Convert exam-style Kubernetes tasks into runnable Killercoda labs. Produce a sce
 ### 6. Return the result
 
 - Write the scenario files directly when working in a repository.
-- Otherwise return the rewritten problem statement, the adaptation notes, the scenario tree, the file contents, and a short verification summary.
+- Otherwise return the rewritten problem statement, the scenario tree, the file contents, and a short verification summary.
 
 ## Quality Bar
 
@@ -60,7 +62,7 @@ Convert exam-style Kubernetes tasks into runnable Killercoda labs. Produce a sce
 - Ensure verification fails before the solution and passes after the solution.
 - Ensure naming is consistent across the prompt, bootstrap scripts, manifests, and verification.
 - Ensure hidden dependencies such as manifests, images, sample workloads, or log files are staged during bootstrap instead of assumed.
-- Ensure every material change from the source question is called out in adaptation notes.
+- Ensure every step `text.md` includes a `<details>`-based answer key with runnable commands that pass the corresponding `verify.sh`.
 
 ## References
 

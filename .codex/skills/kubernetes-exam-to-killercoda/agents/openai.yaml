@@ -1,4 +1,4 @@
 interface:
   display_name: "K8s Exam to Killercoda"
   short_description: "Rewrite CKA, CKAD, and CKS tasks as Killercoda labs"
-  default_prompt: "Use $kubernetes-exam-to-killercoda to rewrite this Kubernetes exam problem into a Killercoda scenario with normalized environment names, bootstrap setup, and verify.sh."
+  default_prompt: "Use $kubernetes-exam-to-killercoda to rewrite this Kubernetes exam problem into a Killercoda scenario with normalized environment names, bootstrap setup, verify.sh, and a `<details>` answer key in each step text.md containing commands that satisfy verify.sh."

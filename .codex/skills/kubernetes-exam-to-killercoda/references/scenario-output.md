@@ -14,7 +14,7 @@ scenario-name/
     verify.sh
 ```
 
-Add `foreground.sh` or `background.sh` only when the scenario needs bootstrap work during `intro` or a specific step.
+Use `background.sh` when the scenario needs environment bootstrap work during `intro` or a specific step.
 
 ## Minimal `index.json`
 
@@ -49,12 +49,14 @@ This layout matches the public Killercoda scenario examples for Kubernetes labs.
 
 - Write `intro.md` for context, prerequisites, and any non-secret setup notes.
 - Write `step1/text.md` as the learner-facing exam prompt.
+- In every `stepN/text.md`, include a collapsible answer key using `<details><summary>Show answer</summary> ... </details>`.
+- Fill the answer key with commands that build an environment passing that step's `verify.sh` conditions.
 - Write `finish.md` as a short completion message and optional recap.
 - Write `verify.sh` as a deterministic shell script that exits nonzero on failure.
 
 ## Bootstrap Placement
 
-- Put environment preparation in `intro/background.sh`, `intro/foreground.sh`, or a step-level script when asynchronous setup is needed.
+- Put environment preparation in `intro/background.sh` or `stepN/background.sh`.
 - Keep bootstrap idempotent where practical.
 - Avoid long-running setup inside `verify.sh`.
 

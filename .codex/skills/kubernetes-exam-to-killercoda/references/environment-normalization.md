@@ -30,5 +30,4 @@ Use this checklist when the source question assumes an environment that does not
 ## Exam Fidelity
 
 - Preserve the scored behavior even when the environment wording changes.
-- Document every meaningful adaptation in a short "adaptation notes" section.
 - Prefer equivalence over literal transcription. If the original wording would mislead the learner in Killercoda, rewrite it.
