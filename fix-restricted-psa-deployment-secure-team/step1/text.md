@@ -1,4 +1,4 @@
-The namespace `secure-lab` enforces the Pod Security Admission `restricted` profile.
+﻿The namespace `secure-lab` enforces the Pod Security Admission `restricted` profile.
 
 The staged Deployment manifest `/root/masters/restricted-fix.yaml` violates that policy and cannot run as-is.
 
@@ -12,3 +12,20 @@ Notes
 
 - Keep the Deployment in namespace `secure-lab`.
 - You only need to edit the staged manifest and apply it.
+
+<details>
+<summary>Reference Answer Commands</summary>
+
+```bash
+vi /root/masters/restricted-fix.yaml
+# set allowPrivilegeEscalation: false
+# drop all capabilities
+# run as non-root with a non-zero uid
+# set seccompProfile.type: RuntimeDefault
+kubectl apply -f /root/masters/restricted-fix.yaml
+kubectl rollout status deployment/policy-app -n secure-lab --timeout=180s
+kubectl get pods -n secure-lab -o wide
+```
+
+</details>
+

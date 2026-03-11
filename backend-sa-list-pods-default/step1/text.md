@@ -1,4 +1,4 @@
-Create a lightweight namespace-scoped identity for Pod inventory work in `default`.
+﻿Create a lightweight namespace-scoped identity for Pod inventory work in `default`.
 
 Tasks
 
@@ -12,3 +12,19 @@ Constraints
 - Keep all resources in namespace `default`.
 - The Pod only needs to stay running.
 - Do not grant extra Pod verbs beyond what is required.
+
+<details>
+<summary>Reference Answer Commands</summary>
+
+```bash
+kubectl get all -n default
+kubectl create serviceaccount viewer-sa -n default --dry-run=client -o yaml | kubectl apply -f -
+kubectl create role pod-viewer -n default --verb=list --resource=pods --dry-run=client -o yaml | kubectl apply -f -
+kubectl create rolebinding pod-viewer-bind -n default --role=pod-viewer --serviceaccount=default:viewer-sa --dry-run=client -o yaml | kubectl apply -f -
+kubectl run inventory-shell -n default --image=busybox:1.36 --serviceaccount=viewer-sa --restart=Never -- sh -c 'sleep 3600'
+kubectl wait --for=condition=Ready pod/inventory-shell -n default --timeout=180s
+kubectl auth can-i list pods -n default --as=system:serviceaccount:default:viewer-sa
+```
+
+</details>
+

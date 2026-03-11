@@ -1,4 +1,4 @@
-Monitor the single-container Pod `tomcat` for anomalous process activity.
+﻿Monitor the single-container Pod `tomcat` for anomalous process activity.
 
 Complete the following task:
 
@@ -16,3 +16,16 @@ Notes
 - The report file must be created on `node01`, not on `controlplane`.
 - A helper watcher is available on `node01` at `/usr/local/bin/tomcat-proc-watch` if you want to use it.
 - A helper manifest for the staged Pod is available at `/root/tomcat-pod.yaml`.
+
+<details>
+<summary>Reference Answer Commands</summary>
+
+```bash
+kubectl apply -f /root/tomcat-pod.yaml
+kubectl wait --for=condition=Ready pod/tomcat --timeout=180s
+ssh node01 'timeout 45 /usr/local/bin/tomcat-proc-watch > /home/anomalous/report'
+ssh node01 'cat /home/anomalous/report'
+```
+
+</details>
+

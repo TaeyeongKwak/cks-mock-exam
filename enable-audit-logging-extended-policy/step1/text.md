@@ -1,4 +1,4 @@
-A forensics review needs a richer audit policy than the one currently staged on `controlplane`.
+﻿A forensics review needs a richer audit policy than the one currently staged on `controlplane`.
 
 Files
 
@@ -18,3 +18,29 @@ Required end state
   - a trailing default `Metadata` rule for everything else
 
 Keep the existing non-resource exclusion already present in the seed file, and let the API server come back Ready before verifying.
+
+<details>
+<summary>Reference Answer Commands</summary>
+
+```bash
+vi /etc/kubernetes/manifests/kube-apiserver.yaml
+# Set:
+# --audit-policy-file=/etc/kubernetes/pki/forensics-audit.yaml
+# --audit-log-path=/var/log/kubernetes-logs.log
+# --audit-log-maxage=12
+# --audit-log-maxbackup=8
+# --audit-log-maxsize=200
+vi /etc/kubernetes/pki/forensics-audit.yaml
+# Keep omitStages: [RequestReceived] and the seeded non-resource exclusion.
+# Add ordered rules for:
+# - RequestResponse on core namespaces
+# - Request on kube-system secrets
+# - Metadata on pods/portforward and services/proxy
+# - Request on the remaining core and extensions resources
+# - a final default Metadata rule
+watch crictl ps
+kubectl --kubeconfig=/etc/kubernetes/admin.conf get --raw /readyz
+```
+
+</details>
+

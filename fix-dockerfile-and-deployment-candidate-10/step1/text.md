@@ -1,4 +1,4 @@
-Review and correct the staged files in `/home/candidate/10-sec`.
+﻿Review and correct the staged files in `/home/candidate/10-sec`.
 
 Files
 
@@ -17,3 +17,21 @@ Notes
 - In this scenario, the Dockerfile issues to fix are the floating Ubuntu base tag and the final runtime user.
 - In this scenario, the Deployment issues to fix are the MySQL image tag and `securityContext.runAsUser`.
 - The files only need to be valid after your edits. You do not need to build or deploy anything.
+
+<details>
+<summary>Reference Answer Commands</summary>
+
+```bash
+vi /home/candidate/10-sec/Dockerfile
+# Change the base image to ubuntu:16.04
+# Change the last USER instruction to: USER 65535
+vi /home/candidate/10-sec/deployment.yaml
+# Change the container image to mysql:8.0
+# Change securityContext.runAsUser to 65535
+kubectl apply --dry-run=client -f /home/candidate/10-sec/deployment.yaml
+grep -E '^(FROM|USER)' /home/candidate/10-sec/Dockerfile
+kubectl create --dry-run=client -f /home/candidate/10-sec/deployment.yaml -o jsonpath='{.spec.template.spec.containers[0].image}{" "}{.spec.template.spec.containers[0].securityContext.runAsUser}{"\n"}'
+```
+
+</details>
+

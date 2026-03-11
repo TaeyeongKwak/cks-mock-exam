@@ -1,4 +1,4 @@
-Pod `jwt-demo` is running in namespace `default` and currently uses the default mounted ServiceAccount token.
+﻿Pod `jwt-demo` is running in namespace `default` and currently uses the default mounted ServiceAccount token.
 
 Complete the following tasks:
 
@@ -11,3 +11,21 @@ Notes
 
 - Use a projected volume, not a Secret volume.
 - Keep the Pod name as `jwt-demo`.
+
+<details>
+<summary>Reference Answer Commands</summary>
+
+```bash
+kubectl patch serviceaccount default -n default -p '{"automountServiceAccountToken":false}'
+vi /root/jwt-demo.yaml
+# keep serviceAccountName: default
+# add a projected volume with serviceAccountToken.path=token.jwt
+# mount that volume at /var/run/secrets/tokens
+kubectl delete pod jwt-demo -n default --ignore-not-found
+kubectl apply -f /root/jwt-demo.yaml
+kubectl wait --for=condition=Ready pod/jwt-demo -n default --timeout=180s
+kubectl exec jwt-demo -- ls -l /var/run/secrets/tokens
+```
+
+</details>
+

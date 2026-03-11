@@ -1,4 +1,4 @@
-The cluster already has a local image scanner webhook service, but the API server is not fully configured to use it.
+﻿The cluster already has a local image scanner webhook service, but the API server is not fully configured to use it.
 
 Complete the following tasks:
 
@@ -11,3 +11,25 @@ Notes
 
 - The webhook service is already running on the control plane.
 - Use the existing files in `/etc/kubernetes/policyconfig/` and complete the missing API server configuration.
+
+<details>
+<summary>Reference Answer Commands</summary>
+
+```bash
+vi /etc/kubernetes/policyconfig/webhook.kubeconfig
+# Set the webhook server to https://valhalla.local:8081/image_policy
+vi /etc/kubernetes/policyconfig/imagepolicyconfig.yaml
+# Set defaultAllow: false and keep the staged webhook.kubeconfig reference
+vi /etc/kubernetes/policyconfig/admission-config.yaml
+# Add ImagePolicyWebhook and point it at imagepolicyconfig.yaml
+vi /etc/kubernetes/manifests/kube-apiserver.yaml
+# Add ImagePolicyWebhook to --enable-admission-plugins
+# Add --admission-control-config-file=/etc/kubernetes/policyconfig/admission-config.yaml
+# Add --runtime-config=imagepolicy.k8s.io/v1alpha1=true
+watch crictl ps
+kubectl get --raw /readyz
+kubectl apply -f /root/17/insecure-image.yaml || true
+```
+
+</details>
+

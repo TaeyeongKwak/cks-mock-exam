@@ -1,4 +1,4 @@
-Validate the integrity of the staged Kubernetes server binaries on worker node `node01`.
+﻿Validate the integrity of the staged Kubernetes server binaries on worker node `node01`.
 
 Complete the following task:
 
@@ -16,3 +16,14 @@ Notes
 
 - The verified values are also staged on `node01` at `/opt/candidate/15a/verified-sha512.txt`.
 - Perform the cleanup on `node01`, not on `controlplane`.
+
+<details>
+<summary>Reference Answer Commands</summary>
+
+```bash
+ssh node01 'cd /opt/candidate/15a && while read -r sum name; do current=$(sha512sum binaries/$name | awk "{print \$1}"); if [ "$current" != "$sum" ]; then rm -f binaries/$name; fi; done < verified-sha512.txt'
+ssh node01 'ls -l /opt/candidate/15a/binaries'
+```
+
+</details>
+

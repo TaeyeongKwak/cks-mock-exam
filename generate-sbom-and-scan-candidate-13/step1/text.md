@@ -1,4 +1,4 @@
-Generate the requested SBOM documents and scan the staged SBOM.
+﻿Generate the requested SBOM documents and scan the staged SBOM.
 
 Tasks
 
@@ -13,3 +13,16 @@ Notes
   - `bom generate --format spdx-json --output <file> <image>`
   - `bom generate --format cyclonedx --output <file> <image>`
 - Keep the output paths exactly as requested.
+
+<details>
+<summary>Reference Answer Commands</summary>
+
+```bash
+bom generate --format spdx-json --output /opt/candidate/13a/sbom1.json registry.k8s.io/kube-apiserver:v1.32.0
+bom generate --format cyclonedx --output /opt/candidate/13a/sbom2.json registry.k8s.io/kube-controller-manager:v1.32.0
+trivy sbom --format json -o /opt/candidate/13a/sbom_result.json /opt/candidate/13a/sbom_check.json
+ls -l /opt/candidate/13a/sbom1.json /opt/candidate/13a/sbom2.json /opt/candidate/13a/sbom_result.json
+```
+
+</details>
+

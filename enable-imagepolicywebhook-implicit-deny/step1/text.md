@@ -1,4 +1,4 @@
-The cluster has a container image scanner webhook, but the API server configuration is incomplete.
+﻿The cluster has a container image scanner webhook, but the API server configuration is incomplete.
 
 Complete the following task:
 
@@ -17,3 +17,25 @@ Notes
 
 - If you change the kube-apiserver static Pod manifest, wait for the API server to restart.
 - The local webhook backend is already running on `controlplane`.
+
+<details>
+<summary>Reference Answer Commands</summary>
+
+```bash
+vi /etc/kubernetes/confcontrol/imagepolicyconfig.yaml
+# Set defaultAllow: false and keep webhook kubeconfig at /etc/kubernetes/confcontrol/webhook.kubeconfig
+vi /etc/kubernetes/confcontrol/admission-config.yaml
+# Add the ImagePolicyWebhook plugin config and point it to /etc/kubernetes/confcontrol/imagepolicyconfig.yaml
+vi /etc/kubernetes/manifests/kube-apiserver.yaml
+# Add:
+# --enable-admission-plugins=...,ImagePolicyWebhook,...
+# --admission-control-config-file=/etc/kubernetes/confcontrol/admission-config.yaml
+# --runtime-config=imagepolicy.k8s.io/v1alpha1=true
+watch crictl ps
+kubectl get --raw /readyz
+kubectl apply -f /root/latest-deny-pod.yaml || true
+systemctl is-active image-policy-webhook.service
+```
+
+</details>
+

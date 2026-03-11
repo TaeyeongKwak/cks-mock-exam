@@ -1,4 +1,4 @@
-RBAC resources are prepared in namespace `data-core`.
+﻿RBAC resources are prepared in namespace `data-core`.
 
 Complete the following tasks:
 
@@ -10,3 +10,21 @@ Notes
 
 - The ServiceAccount and Pod already exist.
 - Keep the names exactly as requested.
+
+<details>
+<summary>Reference Answer Commands</summary>
+
+```bash
+kubectl edit role app-role-a -n data-core
+# keep exactly one rule:
+# apiGroups: [""]
+# resources: ["pods"]
+# verbs: ["get"]
+kubectl create role app-role-b -n data-core --verb=update --resource=statefulsets.apps --dry-run=client -o yaml | kubectl apply -f -
+kubectl create rolebinding app-role-b-bind -n data-core --role=app-role-b --serviceaccount=data-core:app-sa --dry-run=client -o yaml | kubectl apply -f -
+kubectl auth can-i get pods -n data-core --as=system:serviceaccount:data-core:app-sa
+kubectl auth can-i update statefulsets.apps -n data-core --as=system:serviceaccount:data-core:app-sa
+```
+
+</details>
+
