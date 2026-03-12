@@ -24,22 +24,58 @@ Keep the existing non-resource exclusion already present in the seed file, and l
 
 ```bash
 vi /etc/kubernetes/manifests/kube-apiserver.yaml
-# Set:
+# Ensure these flags exist on kube-apiserver:
 # --audit-policy-file=/etc/kubernetes/pki/forensics-audit.yaml
 # --audit-log-path=/var/log/kubernetes-logs.log
 # --audit-log-maxage=12
 # --audit-log-maxbackup=8
 # --audit-log-maxsize=200
-vi /etc/kubernetes/pki/forensics-audit.yaml
-# Keep omitStages: [RequestReceived] and the seeded non-resource exclusion.
-# Add ordered rules for:
-# - RequestResponse on core namespaces
-# - Request on kube-system secrets
-# - Metadata on pods/portforward and services/proxy
-# - Request on the remaining core and extensions resources
-# - a final default Metadata rule
+
+cat <<'EOF' >/etc/kubernetes/pki/forensics-audit.yaml
+apiVersion: audit.k8s.io/v1
+kind: Policy
+omitStages:
+- RequestReceived
+rules:
+- level: None
+  nonResourceURLs:
+  - /healthz*
+- level: RequestResponse
+  resources:
+  - group: ""
+    resources:
+    - namespaces
+- level: Request
+  namespaces:
+  - kube-system
+  resources:
+  - group: ""
+    resources:
+    - secrets
+- level: Metadata
+  resources:
+  - group: ""
+    resources:
+    - pods/portforward
+    - services/proxy
+- level: Request
+  resources:
+  - group: ""
+    resources:
+    - "*"
+  - group: "extensions"
+    resources:
+    - "*"
+- level: Metadata
+EOF
+
+# Wait for the static Pod to restart and become healthy again
 watch crictl ps
 kubectl --kubeconfig=/etc/kubernetes/admin.conf get --raw /readyz
+
+# Optional checks
+grep audit-log /etc/kubernetes/manifests/kube-apiserver.yaml
+crictl inspect "$(crictl ps --name kube-apiserver -q | head -n1)" | grep audit
 ```
 
 </details>

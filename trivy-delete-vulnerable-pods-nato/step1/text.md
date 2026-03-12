@@ -12,6 +12,7 @@ Notes
 - A helper manifest is staged at `/root/atlas-pods.yaml`.
 - You can inspect the current Pod-to-image mapping directly from the cluster or use `/opt/atlas-pod-images.txt`.
 - Do not recreate Pods after deleting them.
+- Make sure the plain-text report includes the image name for every scanned image, even when the image has no HIGH or CRITICAL findings.
 
 <details>
 <summary>Reference Answer Commands</summary>
@@ -20,6 +21,7 @@ Notes
 kubectl get pods -n atlas -o jsonpath='{range .items[*]}{.metadata.name}{" "}{.spec.containers[0].image}{"\n"}{end}' | sort > /opt/atlas-pod-images.txt
 : > /opt/atlas-trivy-report.txt
 while read -r pod image; do
+  echo "=== $image ===" | tee -a /opt/atlas-trivy-report.txt
   trivy image --severity HIGH,CRITICAL "$image" | tee -a /opt/atlas-trivy-report.txt
   if trivy image --quiet --severity HIGH,CRITICAL --format json "$image" | jq -e '.Results[]? | select(.Vulnerabilities and (.Vulnerabilities|length>0))' >/dev/null; then
     kubectl delete pod "$pod" -n atlas

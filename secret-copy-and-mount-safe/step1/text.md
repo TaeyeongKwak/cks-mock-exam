@@ -7,7 +7,8 @@
 3. Create a new Secret `app-secret` in namespace `vault` with:
    - `username=dbadmin`
    - `password=moresecurepas`
-4. Create a Pod named `secret-mount-pod` in namespace `vault` that mounts Secret `app-secret`.
+4. Create a Pod named `secret-mount-pod` in namespace `vault` using image `busybox:1.36`.
+5. Mount Secret `app-secret` inside the Pod at `/etc/app-secret`.
 
 Constraints
 

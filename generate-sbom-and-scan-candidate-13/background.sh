@@ -14,23 +14,23 @@ install_trivy() {
   if command -v trivy >/dev/null 2>&1; then
     return 0
   fi
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get update >/dev/null
+  apt-get install -y wget gnupg lsb-release apt-transport-https >/dev/null
 
-  arch="$(uname -m)"
-  case "${arch}" in
-    x86_64) asset_arch="64bit" ;;
-    aarch64) asset_arch="ARM64" ;;
-    *)
-      echo "Unsupported architecture: ${arch}" >&2
-      exit 1
-      ;;
-  esac
+  wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key \
+    | gpg --dearmor -o /usr/share/keyrings/trivy.gpg
 
-  archive="trivy_${TRIVY_VERSION}_Linux-${asset_arch}.tar.gz"
-  url="https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/${archive}"
+  echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" \
+    >/etc/apt/sources.list.d/trivy.list
 
-  curl -fsSL "${url}" -o "${TMP_DIR}/${archive}"
-  tar -xzf "${TMP_DIR}/${archive}" -C "${TMP_DIR}" trivy
-  install -m 0755 "${TMP_DIR}/trivy" /usr/local/bin/trivy
+  apt-get update >/dev/null
+  apt-get install -y "trivy=${TRIVY_VERSION}" >/dev/null || apt-get install -y trivy >/dev/null
+
+  command -v trivy >/dev/null 2>&1 || {
+    echo "trivy installation failed" >&2
+    exit 1
+  }
 }
 
 kubectl wait --for=condition=Ready node/controlplane node/node01 --timeout=180s >/dev/null
