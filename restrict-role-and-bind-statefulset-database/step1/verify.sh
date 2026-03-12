@@ -46,17 +46,17 @@ kubectl get pod frontend-agent -n data-core -o jsonpath='{.spec.serviceAccountNa
 get_pods="$(kubectl auth can-i get pods -n data-core --as=system:serviceaccount:data-core:app-sa)"
 [ "${get_pods}" = "yes" ] || fail "app-sa cannot get pods in namespace data-core"
 
-list_pods="$(kubectl auth can-i list pods -n data-core --as=system:serviceaccount:data-core:app-sa)"
+list_pods="$(kubectl auth can-i list pods -n data-core --as=system:serviceaccount:data-core:app-sa || true)"
 if [ "${list_pods}" = "yes" ]; then
   fail "app-sa must not list pods in namespace data-core"
 fi
 
-watch_pods="$(kubectl auth can-i watch pods -n data-core --as=system:serviceaccount:data-core:app-sa)"
+watch_pods="$(kubectl auth can-i watch pods -n data-core --as=system:serviceaccount:data-core:app-sa || true)"
 if [ "${watch_pods}" = "yes" ]; then
   fail "app-sa must not watch pods in namespace data-core"
 fi
 
-get_services="$(kubectl auth can-i get services -n data-core --as=system:serviceaccount:data-core:app-sa)"
+get_services="$(kubectl auth can-i get services -n data-core --as=system:serviceaccount:data-core:app-sa || true)"
 if [ "${get_services}" = "yes" ]; then
   fail "app-sa must not get services in namespace data-core"
 fi
@@ -64,7 +64,7 @@ fi
 update_statefulsets="$(kubectl auth can-i update statefulsets.apps -n data-core --as=system:serviceaccount:data-core:app-sa)"
 [ "${update_statefulsets}" = "yes" ] || fail "app-sa cannot update statefulsets in namespace data-core through Role app-role-b"
 
-create_statefulsets="$(kubectl auth can-i create statefulsets.apps -n data-core --as=system:serviceaccount:data-core:app-sa)"
+create_statefulsets="$(kubectl auth can-i create statefulsets.apps -n data-core --as=system:serviceaccount:data-core:app-sa || true)"
 if [ "${create_statefulsets}" = "yes" ]; then
   fail "app-sa must not create statefulsets in namespace data-core"
 fi

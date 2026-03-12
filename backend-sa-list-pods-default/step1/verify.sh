@@ -51,7 +51,7 @@ list_allowed="$(kubectl auth can-i list pods -n default --as=system:serviceaccou
 [ "${list_allowed}" = "yes" ] || fail "viewer-sa cannot list pods in namespace default"
 
 for verb in get watch create update delete patch; do
-  allowed="$(kubectl auth can-i "${verb}" pods -n default --as=system:serviceaccount:default:viewer-sa)"
+  allowed="$(kubectl auth can-i "${verb}" pods -n default --as=system:serviceaccount:default:viewer-sa || true)"
   if [ "${allowed}" = "yes" ]; then
     fail "viewer-sa must not be allowed to ${verb} pods in namespace default"
   fi

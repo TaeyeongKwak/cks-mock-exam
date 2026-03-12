@@ -72,12 +72,12 @@ for verb in get list watch; do
   [ "${allowed}" = "yes" ] || fail "${sa_name} cannot ${verb} deployments in namespace qa-system"
 done
 
-create_allowed="$(kubectl auth can-i create deployments -n qa-system --as=system:serviceaccount:qa-system:${sa_name})"
+create_allowed="$(kubectl auth can-i create deployments -n qa-system --as=system:serviceaccount:qa-system:${sa_name} || true)"
 if [ "${create_allowed}" = "yes" ]; then
   fail "${sa_name} must not be able to create deployments in namespace qa-system"
 fi
 
-delete_allowed="$(kubectl auth can-i delete deployments -n qa-system --as=system:serviceaccount:qa-system:${sa_name})"
+delete_allowed="$(kubectl auth can-i delete deployments -n qa-system --as=system:serviceaccount:qa-system:${sa_name} || true)"
 if [ "${delete_allowed}" = "yes" ]; then
   fail "${sa_name} must not be able to delete deployments in namespace qa-system"
 fi

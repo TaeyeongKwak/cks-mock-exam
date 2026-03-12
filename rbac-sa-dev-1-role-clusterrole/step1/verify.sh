@@ -44,12 +44,12 @@ kubectl get pod frontend-pod -n access-lab -o jsonpath='{.spec.serviceAccountNam
 watch_services="$(kubectl auth can-i watch services -n access-lab --as=system:serviceaccount:access-lab:sa-app-1)"
 [ "${watch_services}" = "yes" ] || fail "sa-app-1 cannot watch services in namespace access-lab"
 
-get_services="$(kubectl auth can-i get services -n access-lab --as=system:serviceaccount:access-lab:sa-app-1)"
+get_services="$(kubectl auth can-i get services -n access-lab --as=system:serviceaccount:access-lab:sa-app-1 || true)"
 if [ "${get_services}" = "yes" ]; then
   fail "sa-app-1 must not get services in namespace access-lab"
 fi
 
-list_services="$(kubectl auth can-i list services -n access-lab --as=system:serviceaccount:access-lab:sa-app-1)"
+list_services="$(kubectl auth can-i list services -n access-lab --as=system:serviceaccount:access-lab:sa-app-1 || true)"
 if [ "${list_services}" = "yes" ]; then
   fail "sa-app-1 must not list services in namespace access-lab"
 fi
@@ -57,7 +57,7 @@ fi
 update_namespaces="$(kubectl auth can-i update namespaces --as=system:serviceaccount:access-lab:sa-app-1)"
 [ "${update_namespaces}" = "yes" ] || fail "sa-app-1 cannot update namespaces through ClusterRole role-b"
 
-create_namespaces="$(kubectl auth can-i create namespaces --as=system:serviceaccount:access-lab:sa-app-1)"
+create_namespaces="$(kubectl auth can-i create namespaces --as=system:serviceaccount:access-lab:sa-app-1 || true)"
 if [ "${create_namespaces}" = "yes" ]; then
   fail "sa-app-1 must not create namespaces"
 fi
