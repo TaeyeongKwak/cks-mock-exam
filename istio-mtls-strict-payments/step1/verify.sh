@@ -39,11 +39,16 @@ if selector:
 PY
 
 live_name="$(
-  kubectl get peerauthentication -n billing -o json | python3 - <<'PY'
+  PEERAUTH_JSON="$(kubectl get peerauthentication -n billing -o json 2>/dev/null || true)" python3 - <<'PY'
 import json
+import os
 import sys
 
-data = json.load(sys.stdin)
+raw = os.environ.get("PEERAUTH_JSON", "")
+if not raw:
+    sys.exit(0)
+
+data = json.loads(raw)
 for item in data.get("items", []):
     spec = item.get("spec", {})
     if spec.get("mtls", {}).get("mode") == "STRICT" and not spec.get("selector"):
@@ -59,8 +64,25 @@ done
 
 for pod in "$(kubectl get pods -n billing -l app=httpbin -o jsonpath='{.items[0].metadata.name}')" "$(kubectl get pods -n billing -l app=curl -o jsonpath='{.items[0].metadata.name}')"; do
   [ -n "${pod}" ] || fail "Expected Pod not found in billing"
-  container_names="$(kubectl get pod "${pod}" -n billing -o jsonpath='{.spec.containers[*].name}')"
-  echo "${container_names}" | grep -q 'istio-proxy' || fail "Pod ${pod} does not have an injected istio-proxy sidecar"
+  pod_json="$(kubectl get pod "${pod}" -n billing -o json 2>/dev/null || true)"
+  POD_JSON="${pod_json}" python3 - <<'PY' || exit 1
+import json
+import os
+import sys
+
+data = json.loads(os.environ["POD_JSON"])
+
+containers = [c.get("name") for c in data.get("spec", {}).get("containers", [])]
+init_containers = [c.get("name") for c in data.get("spec", {}).get("initContainers", [])]
+annotations = data.get("metadata", {}).get("annotations", {})
+status = annotations.get("sidecar.istio.io/status", "")
+
+if "istio-proxy" in containers or "istio-proxy" in init_containers or "istio-proxy" in status:
+    sys.exit(0)
+
+print(f"Pod {data.get('metadata', {}).get('name')} does not have an injected istio-proxy sidecar", file=sys.stderr)
+sys.exit(1)
+PY
 done
 
 curl_pod="$(kubectl get pods -n billing -l app=curl -o jsonpath='{.items[0].metadata.name}')"

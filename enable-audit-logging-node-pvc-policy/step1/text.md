@@ -19,19 +19,51 @@ Notes
 <summary>Reference Answer Commands</summary>
 
 ```bash
-vi /etc/kubernetes/pki/audit-policy.yaml
-# Keep the existing exclusion rules and omitStages.
-# Add one rule with level: RequestResponse for core nodes.
-# Add another rule with level: Request or RequestResponse for
-# core persistentvolumeclaims in namespace portal.
 vi /etc/kubernetes/manifests/kube-apiserver.yaml
-# Set:
+# Ensure kube-apiserver includes these flags:
 # --audit-policy-file=/etc/kubernetes/pki/audit-policy.yaml
 # --audit-log-path=/var/log/kubernetes-logs.log
 # --audit-log-maxage=5
 # --audit-log-maxbackup=10
+
+cat <<'EOF' >/etc/kubernetes/pki/audit-policy.yaml
+apiVersion: audit.k8s.io/v1
+kind: Policy
+omitStages:
+- RequestReceived
+rules:
+- level: None
+  users:
+  - system:kube-proxy
+  verbs:
+  - watch
+  resources:
+  - group: ""
+    resources:
+    - endpoints
+    - services
+- level: RequestResponse
+  resources:
+  - group: ""
+    resources:
+    - nodes
+- level: Request
+  namespaces:
+  - portal
+  resources:
+  - group: ""
+    resources:
+    - persistentvolumeclaims
+EOF
+
+# Wait for kube-apiserver to restart after the manifest change
 watch crictl ps
 kubectl --kubeconfig=/etc/kubernetes/admin.conf get --raw /readyz
+
+# Optional checks
+grep audit-log /etc/kubernetes/manifests/kube-apiserver.yaml
+crictl inspect "$(crictl ps --name kube-apiserver -q | head -n1)" | grep audit
+grep -n 'nodes\|persistentvolumeclaims\|system:kube-proxy' /etc/kubernetes/pki/audit-policy.yaml
 ```
 
 </details>

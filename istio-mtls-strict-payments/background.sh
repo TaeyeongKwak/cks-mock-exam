@@ -32,6 +32,37 @@ setup_mesh() {
     istioctl install -y --set profile=minimal
   fi
 
+  kubectl patch deployment istiod -n istio-system --type='strategic' -p '{
+    "spec": {
+      "template": {
+        "spec": {
+          "tolerations": [
+            {
+              "key": "node-role.kubernetes.io/control-plane",
+              "operator": "Exists",
+              "effect": "NoSchedule"
+            }
+          ],
+          "containers": [
+            {
+              "name": "discovery",
+              "resources": {
+                "requests": {
+                  "cpu": "100m",
+                  "memory": "256Mi"
+                },
+                "limits": {
+                  "cpu": "500m",
+                  "memory": "512Mi"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }' >/dev/null
+
   kubectl rollout status deployment/istiod -n istio-system --timeout=300s >/dev/null
 }
 

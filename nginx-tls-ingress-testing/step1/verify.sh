@@ -27,11 +27,16 @@ pod_ip="$(kubectl get pod web-pod -n testing-lab -o jsonpath='{.status.podIP}')"
 [ -n "${pod_ip}" ] || fail "Could not determine Pod IP for web-pod"
 
 service_name="$(
-  kubectl get service -n testing-lab -o json | python3 - <<'PY'
+  SERVICES_JSON="$(kubectl get service -n testing-lab -o json 2>/dev/null || true)" python3 - <<'PY'
 import json
+import os
 import sys
 
-data = json.load(sys.stdin)
+raw = os.environ.get("SERVICES_JSON", "")
+if not raw:
+    sys.exit(0)
+
+data = json.loads(raw)
 for item in data.get("items", []):
     if item["metadata"]["name"] == "kubernetes":
         continue
@@ -55,11 +60,16 @@ service_port="$(kubectl get service "${service_name}" -n testing-lab -o jsonpath
 [ -n "${service_port}" ] || fail "Service ${service_name} must expose a port"
 
 ingress_name="$(
-  kubectl get ingress -n testing-lab -o json | python3 - <<'PY'
+  INGRESS_JSON="$(kubectl get ingress -n testing-lab -o json 2>/dev/null || true)" python3 - <<'PY'
 import json
+import os
 import sys
 
-data = json.load(sys.stdin)
+raw = os.environ.get("INGRESS_JSON", "")
+if not raw:
+    sys.exit(0)
+
+data = json.loads(raw)
 for item in data.get("items", []):
     rules = item.get("spec", {}).get("rules", [])
     tls = item.get("spec", {}).get("tls", [])
