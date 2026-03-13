@@ -1,0 +1,1 @@
+Nice work. You detected the suspicious `/dev/mem` access pattern and stopped the malicious workload by scaling its Deployment to zero.

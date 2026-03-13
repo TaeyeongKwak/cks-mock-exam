@@ -1,0 +1,23 @@
+{
+  "title": "Detect /dev/mem Access and Stop the Malicious Deployment",
+  "description": "Use Falco-style detection to identify the malicious workload accessing /dev/mem, then scale its Deployment to zero.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "background.sh"
+    },
+    "steps": [
+      {
+        "title": "Detect the malicious workload and scale it down",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}
