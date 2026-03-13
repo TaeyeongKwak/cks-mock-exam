@@ -1,0 +1,23 @@
+{
+  "title": "Monitor Container Process Exec on node01",
+  "description": "Detect container process executions for at least 30 seconds and record incidents to a required file format.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "background.sh"
+    },
+    "steps": [
+      {
+        "title": "Collect process execution incidents",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}

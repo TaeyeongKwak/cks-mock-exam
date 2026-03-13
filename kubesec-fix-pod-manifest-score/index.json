@@ -1,0 +1,23 @@
+{
+  "title": "Raise KubeSec Score for a Pod Manifest",
+  "description": "Scan a staged Pod manifest, apply security fixes, and reach a KubeSec score of at least 4.",
+  "details": {
+    "intro": {
+      "text": "intro.md",
+      "background": "background.sh"
+    },
+    "steps": [
+      {
+        "title": "Fix the manifest",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "text": "finish.md"
+    }
+  },
+  "backend": {
+    "imageid": "kubernetes-kubeadm-2nodes"
+  }
+}
