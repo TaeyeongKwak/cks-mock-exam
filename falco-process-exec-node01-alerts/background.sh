@@ -72,7 +72,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/falco -o engine.kind=modern_ebpf -c /etc/falco/falco.yaml -r /etc/falco/falco_rules.yaml -r /etc/falco/falco_rules.local.yaml
+ExecStart=/usr/bin/falco -o engine.kind=modern_ebpf -c /etc/falco/falco.yaml -r /etc/falco/falco_rules.local.yaml
 Restart=always
 RestartSec=5
 

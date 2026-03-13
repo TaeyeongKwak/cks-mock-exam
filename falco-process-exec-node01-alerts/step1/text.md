@@ -2,7 +2,7 @@ Use Falco on worker node `node01` to monitor container process execution activit
 
 Complete the following task:
 
-1. Create a Falco rule that detects newly spawned or executed processes in containers by matching `spawned_process and container`.
+1. Create a Falco rule that detects successful process execution in containers.
 2. Restart the Falco service so the updated rule is loaded.
 3. Monitor the container workload on `node01` for at least 30 seconds.
 4. Store detected incidents in `/opt/node-01/alerts/details` on `node01`.
@@ -13,6 +13,7 @@ Notes
 
 - Falco is already installed on `node01`.
 - Write your custom rule in `/etc/falco/falco_rules.local.yaml`.
+- Use a condition equivalent to `evt.type in (execve, execveat) and evt.dir=< and evt.failed=false and container.id != host`.
 - Restart Falco with `systemctl restart falco.service` after editing the rule file.
 - You may inspect service health with `systemctl status falco.service --no-pager`.
 - The workload in namespace `runtime-lab` is already running on `node01` and continuously spawns short-lived processes.
@@ -27,13 +28,13 @@ sudo -i
 
 cat >/etc/falco/falco_rules.local.yaml <<'EOF'
 - rule: Container Process Execution
-  desc: Detect spawned processes in containers
-  condition: spawned_process and container
+  desc: Detect successful process execution in containers
+  condition: evt.type in (execve, execveat) and evt.dir=< and evt.failed=false and container.id != host
   output: "%evt.time,%user.uid,%proc.name"
   priority: NOTICE
 EOF
 
-falco -V -r /etc/falco/falco_rules.yaml -r /etc/falco/falco_rules.local.yaml
+falco -V -r /etc/falco/falco_rules.local.yaml
 systemctl restart falco.service
 systemctl status falco.service --no-pager
 /usr/local/bin/falco-report-csv 35 /opt/node-01/alerts/details

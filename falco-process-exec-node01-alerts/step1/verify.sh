@@ -14,12 +14,16 @@ if ! ssh ${SSH_OPTS} node01 "test -f ${RULE_FILE}"; then
   fail "Falco local rules file not found on node01: ${RULE_FILE}"
 fi
 
-if ! ssh ${SSH_OPTS} node01 "grep -Eq 'condition:.*spawned_process.*container|condition:.*container.*spawned_process' ${RULE_FILE}"; then
-  fail "Falco rule must detect spawned processes"
+if ! ssh ${SSH_OPTS} node01 "grep -Eq 'condition:.*execve.*execveat|condition:.*execveat.*execve' ${RULE_FILE}"; then
+  fail "Falco rule must match execve or execveat events"
 fi
 
-if ! ssh ${SSH_OPTS} node01 "grep -Eq 'condition:.*spawned_process.*container|condition:.*container.*spawned_process' ${RULE_FILE}"; then
+if ! ssh ${SSH_OPTS} node01 "grep -Eq 'condition:.*container\.id[[:space:]]*!=[[:space:]]*host' ${RULE_FILE}"; then
   fail "Falco rule must target container activity"
+fi
+
+if ! ssh ${SSH_OPTS} node01 "grep -Eq 'condition:.*evt\.dir=<.*evt\.failed=false|condition:.*evt\.failed=false.*evt\.dir=<' ${RULE_FILE}"; then
+  fail "Falco rule should filter for successful process executions"
 fi
 
 if ! ssh ${SSH_OPTS} node01 "grep -Eq '%evt.time,%user\.(uid|name),%proc.name' ${RULE_FILE}"; then
