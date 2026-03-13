@@ -9,73 +9,9 @@ until ssh ${SSH_OPTS} node01 true >/dev/null 2>&1; do
   sleep 1
 done
 
+ssh ${SSH_OPTS} node01 "export DEBIAN_FRONTEND=noninteractive; apt-get update -y >/dev/null && apt-get install -y curl >/dev/null"
+ssh ${SSH_OPTS} node01 "if ! command -v falco >/dev/null 2>&1; then curl -fsSL https://falco.org/script/install | bash >/dev/null 2>&1; apt-get install -y falco >/dev/null; fi"
 ssh ${SSH_OPTS} node01 "mkdir -p /opt/node-01/reports && rm -f /opt/node-01/reports/events"
-
-ssh ${SSH_OPTS} node01 "tee /usr/local/bin/container-proc-watch >/dev/null" <<'EOF'
-#!/usr/bin/env python3
-import datetime
-import json
-import subprocess
-import sys
-import time
-
-duration = int(sys.argv[1]) if len(sys.argv) > 1 else 30
-interval = 1.0
-
-def run(cmd):
-    try:
-        return subprocess.check_output(cmd, stderr=subprocess.DEVNULL, text=True)
-    except subprocess.CalledProcessError:
-        return ""
-
-seen = set()
-initialized = False
-start = time.time()
-
-while time.time() - start < duration:
-    current = set()
-    container_ids = run(["crictl", "ps", "-q"]).split()
-    for cid in container_ids:
-        inspect_raw = run(["crictl", "inspect", cid])
-        if not inspect_raw:
-            continue
-        try:
-            inspect = json.loads(inspect_raw)
-        except json.JSONDecodeError:
-            continue
-
-        pid = None
-        if isinstance(inspect, list) and inspect:
-            inspect = inspect[0]
-        pid = (
-            inspect.get("info", {}).get("pid")
-            or inspect.get("status", {}).get("pid")
-            or inspect.get("pid")
-        )
-        if not pid:
-            continue
-
-        ps_out = run(["nsenter", "-t", str(pid), "-p", "ps", "-eo", "pid,user,comm", "--no-headers"])
-        if not ps_out:
-            continue
-
-        for line in ps_out.splitlines():
-            parts = line.split(None, 2)
-            if len(parts) != 3:
-                continue
-            proc_pid, user, comm = parts
-            key = (cid, proc_pid, user, comm)
-            current.add(key)
-            if initialized and key not in seen:
-                ts = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
-                print(f"{ts},{user},{comm}", flush=True)
-
-    seen = current
-    initialized = True
-    time.sleep(interval)
-EOF
-
-ssh ${SSH_OPTS} node01 "chmod +x /usr/local/bin/container-proc-watch"
 
 kubectl create namespace proc-watch --dry-run=client -o yaml | kubectl apply -f - >/dev/null
 kubectl delete deployment root-spawner uid1001-spawner uid1002-spawner -n proc-watch --ignore-not-found >/dev/null 2>&1 || true

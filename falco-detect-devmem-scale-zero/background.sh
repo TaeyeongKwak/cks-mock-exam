@@ -7,8 +7,8 @@ kubectl create namespace runtime-lab --dry-run=client -o yaml | kubectl apply -f
 kubectl create namespace falco --dry-run=client -o yaml | kubectl apply -f - >/dev/null
 
 kubectl delete deployment mem-reader api-safe -n runtime-lab --ignore-not-found >/dev/null 2>&1 || true
-kubectl delete deployment falco-monitor -n falco --ignore-not-found >/dev/null 2>&1 || true
-kubectl delete configmap falco-alerts -n falco --ignore-not-found >/dev/null 2>&1 || true
+kubectl delete pod falco -n falco --ignore-not-found >/dev/null 2>&1 || true
+kubectl delete configmap falco-rules falco-config -n falco --ignore-not-found >/dev/null 2>&1 || true
 
 cat <<'EOF' | kubectl apply -f - >/dev/null
 apiVersion: apps/v1
@@ -30,7 +30,15 @@ spec:
       containers:
       - name: probe
         image: busybox:1.36
-        command: ["sh", "-c", "sleep 3600"]
+        command:
+        - sh
+        - -c
+        - |
+          sleep 30
+          while true; do
+            dd if=/dev/mem of=/dev/null bs=1 count=1 >/dev/null 2>&1 || true
+            sleep 60
+          done
         volumeMounts:
         - name: devmem
           mountPath: /dev/mem
@@ -68,41 +76,118 @@ cat <<'EOF' | kubectl apply -f - >/dev/null
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: falco-alerts
+  name: falco-rules
   namespace: falco
 data:
-  falco.log: |
-    10:15:11.000000000: Warning Access to /dev/mem detected | priority=Warning rule=Direct Device Memory Access container=probe k8s.ns.name=runtime-lab k8s.pod.name=mem-reader-7d5f8f9d4f-abcde deployment=mem-reader file=/dev/mem
-    10:15:12.000000000: Notice Regular process activity | priority=Notice rule=Terminal shell in container container=api k8s.ns.name=runtime-lab k8s.pod.name=api-safe-6b7cc69b9f-fghij deployment=api-safe
+  falco_rules.local.yaml: |
+    - rule: Detect Dev Mem Access
+      desc: Detect attempts to read or write /dev/mem from a container
+      condition: container and fd.name=/dev/mem
+      output: "Access to /dev/mem detected | deployment=mem-reader file=%fd.name container=%container.name"
+      priority: WARNING
+      tags: [filesystem, container]
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: falco-monitor
+  name: falco-config
   namespace: falco
+data:
+  falco.yaml: |
+    rules_file:
+      - /etc/falco/falco_rules.yaml
+      - /etc/falco/falco_rules.local.yaml
+    stdout_output:
+      enabled: true
+    syslog_output:
+      enabled: false
+    file_output:
+      enabled: false
+    grpc:
+      enabled: false
+    grpc_output:
+      enabled: false
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: falco
+  namespace: falco
+  labels:
+    app: falco
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: falco-monitor
-  template:
-    metadata:
-      labels:
-        app: falco-monitor
-    spec:
-      containers:
-      - name: falco
-        image: busybox:1.36
-        command: ["sh", "-c", "cat /var/log/falco/falco.log; sleep 3600"]
-        volumeMounts:
-        - name: alerts
-          mountPath: /var/log/falco
-      volumes:
-      - name: alerts
-        configMap:
-          name: falco-alerts
+  restartPolicy: Always
+  serviceAccountName: default
+  hostNetwork: true
+  hostPID: true
+  containers:
+  - name: falco
+    image: falcosecurity/falco:0.37.1
+    securityContext:
+      privileged: true
+    args:
+      - /usr/bin/falco
+      - --userspace
+      - -c
+      - /etc/falco/falco.yaml
+      - -r
+      - /etc/falco/falco_rules.local.yaml
+    volumeMounts:
+      - name: dev-fs
+        mountPath: /host/dev
+        readOnly: true
+      - name: proc-fs
+        mountPath: /host/proc
+        readOnly: true
+      - name: boot-fs
+        mountPath: /host/boot
+        readOnly: true
+      - name: lib-modules
+        mountPath: /host/lib/modules
+        readOnly: true
+      - name: usr-src
+        mountPath: /host/usr/src
+        readOnly: true
+      - name: falco-config
+        mountPath: /etc/falco/falco.yaml
+        subPath: falco.yaml
+      - name: falco-rules
+        mountPath: /etc/falco/falco_rules.local.yaml
+        subPath: falco_rules.local.yaml
+  volumes:
+    - name: dev-fs
+      hostPath:
+        path: /dev
+    - name: proc-fs
+      hostPath:
+        path: /proc
+    - name: boot-fs
+      hostPath:
+        path: /boot
+    - name: lib-modules
+      hostPath:
+        path: /lib/modules
+    - name: usr-src
+      hostPath:
+        path: /usr/src
+    - name: falco-config
+      configMap:
+        name: falco-config
+    - name: falco-rules
+      configMap:
+        name: falco-rules
 EOF
 
 kubectl rollout status deployment/mem-reader -n runtime-lab --timeout=180s >/dev/null
 kubectl rollout status deployment/api-safe -n runtime-lab --timeout=180s >/dev/null
-kubectl rollout status deployment/falco-monitor -n falco --timeout=180s >/dev/null
+kubectl wait --for=condition=Ready pod/falco -n falco --timeout=180s >/dev/null
+
+for _ in $(seq 1 30); do
+  if kubectl logs -n falco pod/falco -c falco 2>/dev/null | grep -q 'file=/dev/mem'; then
+    exit 0
+  fi
+  sleep 5
+done
+
+echo "Falco did not record the staged /dev/mem event in time" >&2
+exit 1

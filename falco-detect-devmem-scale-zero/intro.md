@@ -4,8 +4,11 @@ Environment notes
 
 - The terminal starts on `controlplane`.
 - A `falco` namespace is already present.
-- Falco has already recorded an alert about a container trying to access `/dev/mem`.
+- A running Falco Pod is already recording output in namespace `falco`.
 - Several workloads are running in namespace `runtime-lab`.
+- One staged workload is repeatedly attempting to access `/dev/mem`.
+
+Use Falco evidence to identify the bad workload, then apply the smallest correct remediation.
 
 Success criteria
 

@@ -5,6 +5,9 @@ Environment notes
 - The terminal starts on `controlplane`.
 - The incident output path remains `/opt/node-01/reports/events`, and it must be created on `node01`.
 - Several Pods pinned to `node01` are already generating new child processes over time.
+- Falco is available on `node01`.
+
+Use Falco on `node01` rather than relying on a custom helper script.
 
 Success criteria
 

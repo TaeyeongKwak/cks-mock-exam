@@ -9,10 +9,10 @@ fail() {
 kubectl get namespace falco >/dev/null 2>&1 || fail "Namespace falco not found"
 kubectl get namespace runtime-lab >/dev/null 2>&1 || fail "Namespace runtime-lab not found"
 
-kubectl get deployment falco-monitor -n falco >/dev/null 2>&1 || fail "Falco monitor Deployment not found"
-kubectl rollout status deployment/falco-monitor -n falco --timeout=120s >/dev/null 2>&1 || fail "Falco monitor Deployment is not ready"
+kubectl get pod falco -n falco >/dev/null 2>&1 || fail "Falco Pod not found"
+kubectl wait --for=condition=Ready pod/falco -n falco --timeout=120s >/dev/null 2>&1 || fail "Falco Pod is not ready"
 
-falco_logs="$(kubectl logs -n falco deploy/falco-monitor 2>/dev/null || true)"
+falco_logs="$(kubectl logs -n falco pod/falco -c falco 2>/dev/null || true)"
 echo "${falco_logs}" | grep -q 'file=/dev/mem' || fail "Falco logs do not contain the staged /dev/mem alert"
 echo "${falco_logs}" | grep -q 'deployment=mem-reader' || fail "Falco logs do not identify the flagged deployment"
 
