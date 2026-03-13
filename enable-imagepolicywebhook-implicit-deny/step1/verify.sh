@@ -17,7 +17,7 @@ wait_api() {
     fi
     sleep 2
   done
-  return 1
+  return 1/home/candidate/10-sec
 }
 
 wait_api || fail "API server is not ready"
@@ -28,17 +28,17 @@ wait_api || fail "API server is not ready"
 
 grep -q -- '--admission-control-config-file=/etc/kubernetes/confcontrol/admission-config.yaml' "${MANIFEST}" || fail "kube-apiserver must use /etc/kubernetes/confcontrol/admission-config.yaml"
 runtime_line="$(grep -- '--runtime-config=' "${MANIFEST}" || true)"
-echo "${runtime_line}" | grep -q 'imagepolicy.k8s.io/v1alpha1=true' || fail "kube-apiserver must enable imagepolicy.k8s.io/v1alpha1 runtime config"
+grep -q 'imagepolicy.k8s.io/v1alpha1=true' <<<"${runtime_line}" || fail "kube-apiserver must enable imagepolicy.k8s.io/v1alpha1 runtime config"
 
 enable_line="$(grep -- '--enable-admission-plugins=' "${MANIFEST}" || true)"
-echo "${enable_line}" | grep -q 'ImagePolicyWebhook' || fail "ImagePolicyWebhook must be enabled in --enable-admission-plugins"
+grep -q 'ImagePolicyWebhook' <<<"${enable_line}" || fail "ImagePolicyWebhook must be enabled in --enable-admission-plugins"
 
 apiserver_id="$(crictl ps --name kube-apiserver -q | head -n 1 | tr -d '\r')"
 [ -n "${apiserver_id}" ] || fail "Running kube-apiserver container not found"
 apiserver_inspect="$(crictl inspect "${apiserver_id}" 2>/dev/null || true)"
-echo "${apiserver_inspect}" | grep -q -- '--admission-control-config-file=/etc/kubernetes/confcontrol/admission-config.yaml' || fail "Running kube-apiserver is not using the required admission config"
-echo "${apiserver_inspect}" | grep -q 'imagepolicy.k8s.io/v1alpha1=true' || fail "Running kube-apiserver is not enabling imagepolicy.k8s.io/v1alpha1"
-echo "${apiserver_inspect}" | grep -q 'ImagePolicyWebhook' || fail "Running kube-apiserver does not enable ImagePolicyWebhook"
+grep -q -- '--admission-control-config-file=/etc/kubernetes/confcontrol/admission-config.yaml' <<<"${apiserver_inspect}" || fail "Running kube-apiserver is not using the required admission config"
+grep -q 'imagepolicy.k8s.io/v1alpha1=true' <<<"${apiserver_inspect}" || fail "Running kube-apiserver is not enabling imagepolicy.k8s.io/v1alpha1"
+grep -q 'ImagePolicyWebhook' <<<"${apiserver_inspect}" || fail "Running kube-apiserver does not enable ImagePolicyWebhook"
 
 grep -q 'defaultAllow: false' "${CONFDIR}/imagepolicyconfig.yaml" || fail "Image policy must use implicit deny via defaultAllow: false"
 grep -q '/etc/kubernetes/confcontrol/webhook.kubeconfig' "${CONFDIR}/imagepolicyconfig.yaml" || fail "Image policy config must reference the staged webhook kubeconfig"
@@ -47,7 +47,7 @@ grep -q 'ImagePolicyWebhook' "${CONFDIR}/admission-config.yaml" || fail "Admissi
 grep -q '/etc/kubernetes/confcontrol/imagepolicyconfig.yaml' "${CONFDIR}/admission-config.yaml" || fail "AdmissionConfiguration must point to imagepolicyconfig.yaml"
 
 apply_output="$(kubectl apply -f /root/latest-deny-pod.yaml 2>&1 || true)"
-echo "${apply_output}" | grep -Eqi 'denied|forbidden|latest image tags are not allowed' || fail "Applying the latest-tag test Pod was not denied by the image policy webhook"
+grep -Eqi 'denied|forbidden|latest image tags are not allowed' <<<"${apply_output}" || fail "Applying the latest-tag test Pod was not denied by the image policy webhook"
 
 if kubectl get pod latest-deny >/dev/null 2>&1; then
   fail "Pod latest-deny should not have been created"

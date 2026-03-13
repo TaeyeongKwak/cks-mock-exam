@@ -18,10 +18,18 @@ Notes
 
 ```bash
 vi /root/masters/restricted-fix.yaml
-# set allowPrivilegeEscalation: false
-# drop all capabilities
-# run as non-root with a non-zero uid
-# set seccompProfile.type: RuntimeDefault
+# In spec.template.spec.securityContext, set:
+# runAsNonRoot: true
+# seccompProfile:
+#   type: RuntimeDefault
+#
+# In the container securityContext, set:
+# runAsUser: 1000
+# runAsNonRoot: true
+# allowPrivilegeEscalation: false
+# capabilities:
+#   drop:
+#   - ALL
 kubectl apply -f /root/masters/restricted-fix.yaml
 kubectl rollout status deployment/policy-app -n secure-lab --timeout=180s
 kubectl get pods -n secure-lab -o wide

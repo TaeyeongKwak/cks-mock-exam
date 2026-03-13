@@ -1,11 +1,15 @@
 #!/bin/bash
 set -euo pipefail
 
+SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
 kubectl wait --for=condition=Ready node/controlplane node/node01 --timeout=180s >/dev/null
 
 mkdir -p /root/sandbox
+rm -rf /var/run/docker.sock
 touch /var/run/docker.sock
 chmod 0666 /var/run/docker.sock
+ssh ${SSH_OPTS} node01 'sudo rm -rf /var/run/docker.sock && sudo touch /var/run/docker.sock && sudo chmod 0666 /var/run/docker.sock'
 
 kubectl create namespace sandbox-lab --dry-run=client -o yaml | kubectl apply -f - >/dev/null
 kubectl delete deployment docker-ops -n sandbox-lab --ignore-not-found >/dev/null 2>&1 || true

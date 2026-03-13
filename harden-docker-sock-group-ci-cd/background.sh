@@ -4,6 +4,7 @@ set -euo pipefail
 kubectl wait --for=condition=Ready node/controlplane node/node01 --timeout=180s >/dev/null
 
 mkdir -p /var/run
+rm -rf /var/run/docker.sock
 touch /var/run/docker.sock
 chown root:123 /var/run/docker.sock
 chmod 0660 /var/run/docker.sock

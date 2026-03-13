@@ -15,7 +15,10 @@ Requirements
 Notes
 
 - In this scenario, the Dockerfile issues to fix are the floating Ubuntu base tag and the final runtime user.
+- Pin the Dockerfile base image to `ubuntu:16.04`.
 - In this scenario, the Deployment issues to fix are the MySQL image tag and `securityContext.runAsUser`.
+- Update the Deployment image to `mysql:8.0`.
+- Set the Deployment container `securityContext.runAsUser` to `65535`.
 - The files only need to be valid after your edits. You do not need to build or deploy anything.
 
 <details>

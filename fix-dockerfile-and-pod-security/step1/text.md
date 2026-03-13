@@ -15,6 +15,11 @@ Requirements
 Notes
 
 - Keep the existing resource name `security-audit-pod`.
+- Change the Dockerfile base image to `ubuntu:20.04`.
+- Create `test-user` with UID `5375` and make the Dockerfile run as `test-user` or UID `5375`.
+- Set the Pod container `securityContext.runAsUser` to `5375`.
+- Set the Pod container `securityContext.privileged` to `false`.
+- Keep `allowPrivilegeEscalation` set to `false`.
 - The manifest only needs to be valid after your edits. You do not need to create the Pod.
 
 <details>
@@ -22,7 +27,7 @@ Notes
 
 ```bash
 vi /root/Dockerfile
-# Replace ubuntu:latest with a pinned ubuntu tag.
+# Replace ubuntu:latest with ubuntu:20.04.
 # Create test-user with UID 5375.
 # Make the USER instruction run as test-user or 5375 instead of root.
 vi /root/pod-security-audit.yaml

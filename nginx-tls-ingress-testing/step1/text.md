@@ -10,6 +10,7 @@ Complete the following task:
 4. Create an Ingress using TLS with host `bingo.com`.
 5. Ensure the Ingress uses Secret `bingo-tls`.
 6. Redirect all HTTP traffic to HTTPS.
+7. Use the NGINX Ingress controller settings for HTTP-to-HTTPS redirection.
 
 Notes
 
